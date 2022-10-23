@@ -24,7 +24,7 @@ class RandomChar extends Component {
          this.marvelServises
         .getHero(id)
         .then(resp=>{
-             let hero = resp.data.results[0]
+             let hero = resp.data.results[0];
             this.setState({
                 name: hero.name,
                 description: hero?.description || 'message',
