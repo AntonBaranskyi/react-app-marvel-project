@@ -24,12 +24,13 @@ class RandomChar extends Component {
          this.marvelServises
         .getHero(id)
         .then(resp=>{
+             let hero = resp.data.results[0];
             this.setState({
-                name: resp.data.results[0].name,
-                description: resp.data.results[0].description,
-                thumbnail: resp.data.results[0].thumbnail.path + '.' + resp.data.results[0].thumbnail.extension,
-                homepage : resp.data.results[0].urls[0].url,
-                wiki: resp.data.results[0].urls[1].url
+                name: hero.name,
+                description: hero?.description || 'message',
+                thumbnail: hero.thumbnail.path + '.' + hero.thumbnail.extension,
+                homepage : hero.urls[0].url,
+                wiki: hero.urls[1].url
             })
         })
     }
