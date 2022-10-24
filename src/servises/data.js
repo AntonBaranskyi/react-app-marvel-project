@@ -12,12 +12,25 @@ class Services {
         return await result.json();
     }
 
-    getAllHeroes = ()=>{
-        return this.getAllData(`${this.__apiData}characters?${this.__apiKey}`);
+    getAllHeroes = async ()=>{
+        const res =  await this.getAllData(`${this.__apiData}characters?${this.__apiKey}`);
+        return res.data.results.map(this._transformHero)
     }
 
-    getHero = (id)=>{
-        return this.getAllData(`${this.__apiData}characters/${id}?${this.__apiKey}`);
+    getHero = async (id)=>{
+        const  res = await this.getAllData(`${this.__apiData}characters/${id}?${this.__apiKey}`);
+        return this._transformHero(res);
+    }
+
+    _transformHero = (res)=>{ // трансформували данні 
+        let hero = res.data.results[0];
+        return {
+            name: hero.name,
+            description: hero.description ? `${hero.description.slice(0,200)}...` : 'Could not found data for this hero',
+            thumbnail: hero.thumbnail.path + '.' + hero.thumbnail.extension,
+            homepage : hero.urls[0].url,
+            wiki: hero.urls[1].url
+        }
     }
 }
 
