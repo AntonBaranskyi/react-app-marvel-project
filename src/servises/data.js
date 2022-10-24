@@ -26,7 +26,7 @@ class Services {
         let hero = res.data.results[0];
         return {
             name: hero.name,
-            description: hero.description ? `${hero.description.slice(0,200)}...` : 'Could not found data for this hero',
+            description: hero.description ? `${hero.description.slice(0,200)}...` : 'Could not found description for this hero',
             thumbnail: hero.thumbnail.path + '.' + hero.thumbnail.extension,
             homepage : hero.urls[0].url,
             wiki: hero.urls[1].url

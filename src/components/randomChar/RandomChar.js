@@ -22,10 +22,13 @@ class RandomChar extends Component {
     
     onHeroLoaded = (hero)=>{
         this.setState({hero});
-        this.setState({loading:!this.state.loading})
+        this.setState({loading:false})
     }
     onError=()=>{
-        this.setState({error:true})
+        this.setState({
+            error:true,
+            loading:false
+        })
     }
 
     updateHero = ()=>{
@@ -42,7 +45,9 @@ class RandomChar extends Component {
         const content = !(errorMsg || loadingImg)?<StaticPart hero={hero}/>:null;
     return (
         <div className="randomchar">
-          {errorMsg}{loadingImg}{content}
+          {errorMsg}
+          {loadingImg}
+          {content}
             <div className="randomchar__static">
                 <p className="randomchar__title">
                     Random character for today!<br/>
