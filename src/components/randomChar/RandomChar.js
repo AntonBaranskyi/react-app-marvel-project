@@ -1,7 +1,11 @@
 import { Component } from 'react';
 import Services from '../../servises/data';
-import './randomChar.scss';
+
+import Spinner from '../spinner/Spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
+
 import mjolnir from '../../resources/img/mjolnir.png';
+import './randomChar.scss';
 
 
 class RandomChar extends Component {
@@ -10,12 +14,18 @@ class RandomChar extends Component {
         this.updateHero();
     }
     state = {
-        hero:{}
+        hero:{},
+        loading:true,
+        error:false
     }
     marvelServises = new Services();
     
     onHeroLoaded = (hero)=>{
         this.setState({hero});
+        this.setState({loading:!this.state.loading})
+    }
+    onError=()=>{
+        this.setState({error:true})
     }
 
     updateHero = ()=>{
@@ -23,28 +33,16 @@ class RandomChar extends Component {
          this.marvelServises
         .getHero(id)
         .then(this.onHeroLoaded)
+        .catch(this.onError)
     }
     render(){
-        const {hero:{name, description, thumbnail, homepage, wiki}} = this.state;
+        const {hero,loading,error} = this.state;
+        const errorMsg = error? <ErrorMessage/> : null;
+        const loadingImg = loading ? <Spinner/>:null
+        const content = !(errorMsg || loadingImg)?<StaticPart hero={hero}/>:null;
     return (
         <div className="randomchar">
-            <div className="randomchar__block">
-                <img src={thumbnail} alt="Random character" className="randomchar__img"/>
-                <div className="randomchar__info">
-                    <p className="randomchar__name">{name}</p>
-                    <p className="randomchar__descr">
-                        {description}
-                    </p>
-                    <div className="randomchar__btns">
-                        <a href={homepage} className="button button__main">
-                            <div className="inner">homepage</div>
-                        </a>
-                        <a href= {wiki} className="button button__secondary">
-                            <div className="inner">Wiki</div>
-                        </a>
-                    </div>
-                </div>
-            </div>
+          {errorMsg}{loadingImg}{content}
             <div className="randomchar__static">
                 <p className="randomchar__title">
                     Random character for today!<br/>
@@ -61,6 +59,29 @@ class RandomChar extends Component {
         </div>
     )
 }
+}
+
+const StaticPart = ({hero})=>{
+    const {name,description,thumbnail,homepage,wiki} = hero;
+    return(
+        <div className="randomchar__block">
+        <img src={thumbnail} alt="Random character" className="randomchar__img"/>
+        <div className="randomchar__info">
+            <p className="randomchar__name">{name}</p>
+            <p className="randomchar__descr">
+                {description}
+            </p>
+            <div className="randomchar__btns">
+                <a href={homepage} className="button button__main">
+                    <div className="inner">homepage</div>
+                </a>
+                <a href= {wiki} className="button button__secondary">
+                    <div className="inner">Wiki</div>
+                </a>
+            </div>
+        </div>
+    </div>
+    )
 }
 
 export default RandomChar;
