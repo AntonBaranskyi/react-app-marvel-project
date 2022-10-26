@@ -21,7 +21,7 @@ class CharList extends Component {
             neededAnsw.map(item=>{
                 this.setState({
                     name:item.name,
-                    photo:item.thumbnail.path + '.' + item.thumbnail.extension
+                    thumbnail:item.thumbnail
                 })
             })
         })
@@ -36,8 +36,8 @@ class CharList extends Component {
                     <div className="char__name">{name}</div>
                 </li>
                 <li className="char__item char__item_selected">
-                    <img src={abyss} alt="abyss"/>
-                    <div className="char__name">Abyss</div>
+                    <img src={thumbnail} alt="abyss"/>
+                    <div className="char__name">{name}</div>
                 </li>
                 <li className="char__item">
                     <img src={abyss} alt="abyss"/>
