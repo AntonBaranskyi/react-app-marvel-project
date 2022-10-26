@@ -14,22 +14,27 @@ class Services {
 
     getAllHeroes = async ()=>{
         const res =  await this.getAllData(`${this.__apiData}characters?${this.__apiKey}`);
-        return res.data.results.map(this._transformHero)
+        return res.data.results.map(this._transformHero);
     }
 
     getHero = async (id)=>{
         const  res = await this.getAllData(`${this.__apiData}characters/${id}?${this.__apiKey}`);
-        return this._transformHero(res);
+        return this._transformHero(res.data.results[0]);
+    }
+
+    getNumHero = async (num)=>{
+        const res = await this.getAllData(`${this.__apiData}characters?limit=${num}&${this.__apiKey}`);
+        return await res.data.results[0];
     }
 
     _transformHero = (res)=>{ // трансформували данні 
-        let hero = res.data.results[0];
+       
         return {
-            name: hero.name,
-            description: hero.description ? `${hero.description.slice(0,200)}...` : 'Could not found description for this hero',
-            thumbnail: hero.thumbnail.path + '.' + hero.thumbnail.extension,
-            homepage : hero.urls[0].url,
-            wiki: hero.urls[1].url
+            name: res.name,
+            description: res.description ? `${res.description.slice(0,200)}...` : 'Could not found description for this hero',
+            thumbnail: res.thumbnail.path + '.' + res.thumbnail.extension,
+            homepage : res.urls[0].url,
+            wiki: res.urls[1].url
         }
     }
 }

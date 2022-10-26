@@ -9,16 +9,22 @@ import './randomChar.scss';
 
 
 class RandomChar extends Component {
-    constructor(props){
-        super(props);
-        this.updateHero();
-    }
     state = {
         hero:{},
         loading:true,
         error:false
     }
     marvelServises = new Services();
+
+    componentDidMount (){
+        this.updateHero();
+    }
+    onUpdate = ()=>{
+        this.updateHero();
+        this.setState({
+            loading:true
+        })
+    }
     
     onHeroLoaded = (hero)=>{
         this.setState({hero});
@@ -56,7 +62,9 @@ class RandomChar extends Component {
                 <p className="randomchar__title">
                     Or choose another one
                 </p>
-                <button className="button button__main">
+                <button
+                onClick={this.onUpdate}
+                className="button button__main">
                     <div className="inner">try it</div>
                 </button>
                 <img src={mjolnir} alt="mjolnir" className="randomchar__decoration"/>
