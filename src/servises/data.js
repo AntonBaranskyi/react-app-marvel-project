@@ -34,7 +34,8 @@ class Services {
             description: res.description ? `${res.description.slice(0,200)}...` : 'Could not found description for this hero',
             thumbnail: res.thumbnail.path + '.' + res.thumbnail.extension,
             homepage : res.urls[0].url,
-            wiki: res.urls[1].url
+            wiki: res.urls[1].url,
+            id:res.id
         }
     }
 }

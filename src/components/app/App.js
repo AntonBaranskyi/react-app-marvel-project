@@ -4,21 +4,35 @@ import CharList from "../charList/CharList";
 import CharInfo from "../charInfo/CharInfo";
 
 import decoration from '../../resources/img/vision.png';
+import { Component } from "react";
 
-const App = () => {
+
+class App extends Component {
+
+    state = {
+        heroId : null
+    }
+    onGetHeroId  = (id)=>{
+        this.setState({
+            heroId:id
+        })
+    }
+    render(){
+
     return (
         <div className="app">
             <AppHeader/>
             <main>
                 <RandomChar/>
                 <div className="char__content">
-                    <CharList/>
-                    <CharInfo/>
+                    <CharList onGetHeroId = {this.onGetHeroId}/>
+                    <CharInfo heroId = {this.state.heroId}/>
                 </div>
                 <img className="bg-decoration" src={decoration} alt="vision"/>
             </main>
         </div>
     )
+}
 }
 
 export default App;

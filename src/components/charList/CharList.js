@@ -42,9 +42,11 @@ class CharList extends Component {
             <ul className="char__grid">
                 {loadingImg}
                 {errorImg}
-                {heroes.map(({name,thumbnail})=>{
+                {heroes.map(({name,thumbnail,id})=>{
                     return(
-                        <li className="char__item">
+                        <li className="char__item"
+                        key = {id}
+                        onClick = {()=> this.props.onGetHeroId(id)}>
                     <img src={thumbnail} alt="abyss"/>
                     <div className="char__name">{name}</div>
                 </li>
