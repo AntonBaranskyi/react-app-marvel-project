@@ -3,7 +3,6 @@ import './charList.scss';
 import abyss from '../../resources/img/abyss.jpg';
 import { Component } from 'react';
 import Spinner from '../spinner/Spinner';
-import styled from 'styled-components';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
 class CharList extends Component {

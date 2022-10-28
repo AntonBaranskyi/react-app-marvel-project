@@ -1,6 +1,4 @@
 import './charInfo.scss';
-import thor from '../../resources/img/thor.jpeg';
-
 import { Component } from 'react';
 import Services from '../../servises/data';
 import Skeleton from '../skeleton/Skeleton'
