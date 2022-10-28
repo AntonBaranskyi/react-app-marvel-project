@@ -1,12 +1,11 @@
-import { Component } from 'react';
-import Services from '../../servises/data';
-
-import ErrorMessage from '../errorMessage/ErrorMessage';
-import Spinner from '../spinner/Spinner';
-import Skeleton from '../skeleton/Skeleton'
-
 import './charInfo.scss';
 import thor from '../../resources/img/thor.jpeg';
+
+import { Component } from 'react';
+import Services from '../../servises/data';
+import Skeleton from '../skeleton/Skeleton'
+import Spinner from '../spinner/Spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 
 class CharInfo extends Component {
     state = {
@@ -14,42 +13,56 @@ class CharInfo extends Component {
         loading:false,
         error:false
     }
-
-    marvelServises = new Services();
-
-    componentDidMount(){
-        this.onGetHeroData();
+    componentDidMount (){
+        this.onHeroDataUpdate();
     }
 
-    onGetHeroData = ()=>{
+    componentDidUpdate(prevProps) {
+        // Типове використання (не забудьте порівняти пропси):
+        if (this.props.heroId !== prevProps.heroId) {
+          this.onHeroDataUpdate()
+        }
+      }
+
+    marvelService = new Services();
+    onHeroDataUpdate = ()=>{
         const {heroId} = this.props;
         if(!heroId){
             return;
         }
-        this.marvelServises.getHero(heroId)
-        .then(this.onHeroLoaded)
+        this.onLoading();
+        this.marvelService.getHero(heroId)
+        .then(this.updateHero)
         .catch(this.onError)
     }
-    onHeroLoaded = ({hero})=>{
-        this.setState({hero});
+    updateHero = (hero)=>{
+        console.log(hero)
         this.setState({
+            hero,
             loading:false
+        })
+    }
+    onLoading = ()=>{
+        this.setState({
+            loading:true
         })
     }
     onError = ()=>{
         this.setState({
-            error:true,
-            loading:false
+            loading:false,
+            error:true
         })
     }
-
     render(){
-    const {hero,loading,error} = this.state;
-    const loadingImg = loading ? <Spinner/> : null;
-    const errorImg = error ? <ErrorMessage/> : null;
-    const skelet = loading || error || hero ? null : <Skeleton/>
-    const content = !(loading || error || !hero) ? <Viev hero={hero}/>: null
+        const {hero,loading,error} = this.state;
+        const skelet = hero || loading || error ? null : <Skeleton/>
+        const loadingImg = loading ? <Spinner/> : null;
+        const errorImg = error ? <ErrorMessage/> : null;
+        const content = !(loading || error || !hero) ?   <View hero = {hero}/> : null
+    
+
     return (
+
         <div className="char__info">
             {skelet}
             {loadingImg}
@@ -60,12 +73,13 @@ class CharInfo extends Component {
 }
 }
 
-const Viev = ({hero})=>{
-    const {name,thumbnail,description,wiki,homepage} = hero;
+const View = ({hero})=>{
+    let i = 0;
+    const {name,thumbnail,description,homepage,wiki,comics} = hero;
     return(
         <>
         <div className="char__basics">
-                <img src={thumbnail} alt={name}/>
+                <img src={thumbnail} alt="abyss"/>
                 <div>
                     <div className="char__info-name">{name}</div>
                     <div className="char__btns">
@@ -79,40 +93,20 @@ const Viev = ({hero})=>{
                 </div>
             </div>
             <div className="char__descr">
-               {description}
+                {description}
             </div>
             <div className="char__comics">Comics:</div>
             <ul className="char__comics-list">
-                <li className="char__comics-item">
-                    All-Winners Squad: Band of Heroes (2011) #3
+
+            {comics&&
+                comics.map(({name})=>{
+                return(
+                    <li className="char__comics-item"
+                    key={i++}>
+                    {name}
                 </li>
-                <li className="char__comics-item">
-                    Alpha Flight (1983) #50
-                </li>
-                <li className="char__comics-item">
-                    Amazing Spider-Man (1999) #503
-                </li>
-                <li className="char__comics-item">
-                    Amazing Spider-Man (1999) #504
-                </li>
-                <li className="char__comics-item">
-                    AMAZING SPIDER-MAN VOL. 7: BOOK OF EZEKIEL TPB (Trade Paperback)
-                </li>
-                <li className="char__comics-item">
-                    Amazing-Spider-Man: Worldwide Vol. 8 (Trade Paperback)
-                </li>
-                <li className="char__comics-item">
-                    Asgardians Of The Galaxy Vol. 2: War Of The Realms (Trade Paperback)
-                </li>
-                <li className="char__comics-item">
-                    Vengeance (2011) #4
-                </li>
-                <li className="char__comics-item">
-                    Avengers (1963) #1
-                </li>
-                <li className="char__comics-item">
-                    Avengers (1996) #1
-                </li>
+                )
+            })}
             </ul>
             </>
     )
