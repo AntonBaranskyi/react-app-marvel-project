@@ -3,36 +3,37 @@ import RandomChar from "../randomChar/RandomChar";
 import CharList from "../charList/CharList";
 import CharInfo from "../charInfo/CharInfo";
 
-import decoration from '../../resources/img/vision.png';
+import decoration from "../../resources/img/vision.png";
 import { Component } from "react";
 
-
 class App extends Component {
-
     state = {
-        heroId : null
-    }
-    onGetHeroId  = (id)=>{
+        heroId: null,
+    };
+    onGetHeroId = (id) => {
         this.setState({
-            heroId:id
-        })
+            heroId: id,
+        });
+    };
+    render() {
+        return (
+            <div className="app">
+                <AppHeader />
+                <main>
+                    <RandomChar />
+                    <div className="char__content">
+                        <CharList onGetHeroId={this.onGetHeroId} />
+                        <CharInfo heroId={this.state.heroId} />
+                    </div>
+                    <img
+                        className="bg-decoration"
+                        src={decoration}
+                        alt="vision"
+                    />
+                </main>
+            </div>
+        );
     }
-    render(){
-
-    return (
-        <div className="app">
-            <AppHeader/>
-            <main>
-                <RandomChar/>
-                <div className="char__content">
-                    <CharList onGetHeroId = {this.onGetHeroId}/>
-                    <CharInfo heroId = {this.state.heroId}/>
-                </div>
-                <img className="bg-decoration" src={decoration} alt="vision"/>
-            </main>
-        </div>
-    )
-}
 }
 
 export default App;
