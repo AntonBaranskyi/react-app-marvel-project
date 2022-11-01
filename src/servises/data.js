@@ -1,6 +1,7 @@
 class Services {
     __apiKey = "apikey=c334abaf7a79a7cc717a34fe3aa984af";
     __apiData = "https://gateway.marvel.com:443/v1/public/";
+    _apiOffset = 210;
 
     getAllData = async (url) => {
         let result = await fetch(url);
@@ -14,9 +15,9 @@ class Services {
         return await result.json();
     };
 
-    getAllHeroes = async () => {
+    getAllHeroes = async (offset = this._apiOffset) => {
         const res = await this.getAllData(
-            `${this.__apiData}characters?${this.__apiKey}`
+            `${this.__apiData}characters?limit=9&offset=${offset}&${this.__apiKey}`
         );
         return res.data.results.map(this._transformHero);
     };

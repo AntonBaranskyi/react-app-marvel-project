@@ -10,7 +10,10 @@ class CharList extends Component {
     state = {
         heroes : [],
         loading:true,
-        error:false
+        error:false,
+        offset:219,
+        extraLoading : false,
+        heroEnded : false
     }
     componentDidMount(){
         this.getHeroesData();
@@ -19,21 +22,50 @@ class CharList extends Component {
 
     onError = ()=>{
         this.setState({
-            error:true
+            error:true,
+            loading:false
         })
     }
 
     getHeroesData = () =>{
-        this.newService.getAllHeroes().then(resp=>{
-            this.setState({
-                heroes:resp.slice(0,9),
-                loading:!this.state.loading
-            })
-        }).catch(this.onError)
+        this.newService.getAllHeroes()
+        .then(this.onHeroesLoaded)
+        .catch(this.onError)
     }
 
+    onHeroesLoaded = (heroes)=>{
+        this.setState({
+            heroes,
+            loading:false
+        })
+    }
+    onRequestMore = (offset)=>{
+        this.onExtraLoading()
+        this.newService.getAllHeroes(offset)
+        .then(this.onMoreHeroesLoaded)
+        .catch(this.onError)
+    }
+    onExtraLoading = ()=>{
+        this.setState({
+            extraLoading: true
+        })
+    }
+    onMoreHeroesLoaded = (newHeroes)=>{
+        let ended = false;
+        if(newHeroes.length < 9){
+            ended = true;
+        }
+        this.setState(({heroes,offset})=>({
+            heroes : [...heroes, ...newHeroes],
+            extraLoading : false,
+            offset: offset + 9,
+            heroEnded : ended
+        }))
+    }
+
+
     render(){
-        const {heroes,loading,error} = this.state;
+        const {heroes,loading,error,offset,heroEnded} = this.state;
         const loadingImg = loading ? <Spinner/> : null
         const errorImg = error ? <ErrorMessage/>:null
         return(
@@ -53,7 +85,7 @@ class CharList extends Component {
                 })}
             
             </ul>
-            <button className="button button__main button__long">
+            <button style={{display: heroEnded ? 'none' : 'block' }} onClick={()=>this.onRequestMore(offset)} className="button button__main button__long">
                 <div className="inner">load more</div>
             </button>
         </div>

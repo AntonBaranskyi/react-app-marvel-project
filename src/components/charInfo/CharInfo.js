@@ -88,6 +88,7 @@ const View = ({ hero }) => {
             <div className="char__descr">{description}</div>
             <div className="char__comics">Comics:</div>
             <ul className="char__comics-list">
+                {comics.length == 0 ? 'Could not find any comics for this hero' : null}
                 {comics &&
                     comics.map(({ name }) => {
                         return (
