@@ -4,6 +4,7 @@ import abyss from "../../resources/img/abyss.jpg";
 import { Component } from "react";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
+import PropTypes from "prop-types";
 
 class CharList extends Component {
   state = {
