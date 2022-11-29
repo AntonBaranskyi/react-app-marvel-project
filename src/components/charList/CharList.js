@@ -1,103 +1,84 @@
 import Services from "../../servises/data";
 import "./charList.scss";
 import abyss from "../../resources/img/abyss.jpg";
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import PropTypes from "prop-types";
 
-class CharList extends Component {
-  state = {
-    heroes: [],
-    loading: true,
-    error: false,
-    offset: 219,
-    extraLoading: false,
-    heroEnded: false,
-  };
-  componentDidMount() {
-    this.getHeroesData();
-  }
-  newService = new Services();
+const CharList = (props) => {
+  const [heroes, setHeroes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [offset, setOffset] = useState(219);
+  const [extraLoading, setExtraLoading] = useState(false);
+  const [heroEnded, setHeroEnded] = useState(false);
 
-  onError = () => {
-    this.setState({
-      error: true,
-      loading: false,
-    });
+  useEffect(() => {
+    getHeroesData();
+  }, []);
+
+  const newService = new Services();
+
+  const onError = () => {
+    setError(true);
+    setLoading(false);
   };
 
-  getHeroesData = () => {
-    this.newService
-      .getAllHeroes()
-      .then(this.onHeroesLoaded)
-      .catch(this.onError);
+  const getHeroesData = () => {
+    newService.getAllHeroes().then(onHeroesLoaded).catch(onError);
   };
 
-  onHeroesLoaded = (heroes) => {
-    this.setState({
-      heroes,
-      loading: false,
-    });
+  const onHeroesLoaded = (heroes) => {
+    setHeroes(heroes);
+    setLoading(false);
   };
-  onRequestMore = (offset) => {
-    this.onExtraLoading();
-    this.newService
-      .getAllHeroes(offset)
-      .then(this.onMoreHeroesLoaded)
-      .catch(this.onError);
+ const onRequestMore = (offset) => {
+    onExtraLoading();
+    newService.getAllHeroes(offset).then(onMoreHeroesLoaded).catch(onError);
   };
-  onExtraLoading = () => {
-    this.setState({
-      extraLoading: true,
-    });
+  const onExtraLoading = () => {
+    setExtraLoading(true);
   };
-  onMoreHeroesLoaded = (newHeroes) => {
-    let ended = false;
-    if (newHeroes.length < 9) {
-      ended = true;
-    }
-    this.setState(({ heroes, offset }) => ({
-      heroes: [...heroes, ...newHeroes],
-      extraLoading: false,
-      offset: offset + 9,
-      heroEnded: ended,
-    }));
+  const onMoreHeroesLoaded = (newHeroes) => {
+    let ended = newHeroes.length < 9;
+
+    setHeroes((heroes) => [...heroes, ...newHeroes]);
+    setExtraLoading(false);
+    setOffset((offset) => offset + 9);
+    setHeroEnded(ended);
   };
 
-  render() {
-    const { heroes, loading, error, offset, heroEnded } = this.state;
-    const loadingImg = loading ? <Spinner /> : null;
-    const errorImg = error ? <ErrorMessage /> : null;
-    return (
-      <div className="char__list">
-        <ul className="char__grid">
-          {loadingImg}
-          {errorImg}
-          {heroes.map(({ name, thumbnail, id }) => {
-            return (
-              <li
-                className="char__item"
-                key={id}
-                onClick={() => this.props.onGetHeroId(id)}
-              >
-                <img src={thumbnail} alt="abyss" />
-                <div className="char__name">{name}</div>
-              </li>
-            );
-          })}
-        </ul>
-        <button
-          style={{ display: heroEnded ? "none" : "block" }}
-          onClick={() => this.onRequestMore(offset)}
-          className="button button__main button__long"
-        >
-          <div className="inner">load more</div>
-        </button>
-      </div>
-    );
-  }
-}
+  const loadingImg = loading ? <Spinner /> : null;
+  const errorImg = error ? <ErrorMessage /> : null;
+  return (
+    <div className="char__list">
+      <ul className="char__grid">
+        {loadingImg}
+        {errorImg}
+        {heroes.map(({ name, thumbnail, id }) => {
+          return (
+            <li
+              className="char__item"
+              key={id}
+              onClick={() => props.onGetHeroId(id)}
+            >
+              <img src={thumbnail} alt="abyss" />
+              <div className="char__name">{name}</div>
+            </li>
+          );
+        })}
+      </ul>
+      <button
+        style={{ display: heroEnded ? "none" : "block" }}
+        onClick={() => onRequestMore(offset)}
+        className="button button__main button__long"
+      >
+        <div className="inner">load more</div>
+      </button>
+    </div>
+  );
+};
 
 CharList.propTypes = {
   onGetHeroId: PropTypes.func,
