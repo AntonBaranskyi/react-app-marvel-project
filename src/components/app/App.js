@@ -5,6 +5,8 @@ import CharInfo from "../charInfo/CharInfo";
 
 import decoration from "../../resources/img/vision.png";
 import { useState } from "react";
+import ComicsBanner from "../comicsBanner/comicsBanner";
+import ComicsPage from "../comicsPage/comicsPage";
 
 const App = ()=>{
 
@@ -17,7 +19,7 @@ const App = ()=>{
         return (
             <div className="app">
                 <AppHeader />
-                <main>
+                {/* <main>
                     <RandomChar />
                     <div className="char__content">
                         <CharList onGetHeroId={onGetHeroId} />
@@ -28,7 +30,9 @@ const App = ()=>{
                         src={decoration}
                         alt="vision"
                     />
-                </main>
+                </main> */}
+                <ComicsBanner/>
+                <ComicsPage/>
             </div>
         );
     }
