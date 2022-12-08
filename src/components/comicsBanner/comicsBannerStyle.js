@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
     height: 100px;
     background-color: #232222;
     grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 45px;
 `;
 export const FirstImg = styled.img`
     padding-left:25px;

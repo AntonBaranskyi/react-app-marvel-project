@@ -1,7 +1,8 @@
 class Services {
   __apiKey = "apikey=c334abaf7a79a7cc717a34fe3aa984af";
   __apiData = "https://gateway.marvel.com:443/v1/public/";
-  _apiOffset = 210;
+  _apiOffsetHero = 210;
+  _apiOffsetComics = 210;
 
   getAllData = async (url) => {
     let result = await fetch(url);
@@ -13,7 +14,7 @@ class Services {
     return await result.json();
   };
 
-  getAllHeroes = async (offset = this._apiOffset) => {
+  getAllHeroes = async (offset = this._apiOffsetHero) => {
     const res = await this.getAllData(
       `${this.__apiData}characters?limit=9&offset=${offset}&${this.__apiKey}`
     );
@@ -34,9 +35,9 @@ class Services {
     return await res.data.results[0];
   };
 
-  getComicsList = async () => {
+  getComicsList = async (offset = this._apiOffsetComics) => {
     const res = await this.getAllData(
-      `${this.__apiData}comics?${this.__apiKey}`
+      `${this.__apiData}comics?offset=${offset}&${this.__apiKey}`
     );
     return res.data.results.map(this._trasfromComics);
   };

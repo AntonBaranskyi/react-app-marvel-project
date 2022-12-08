@@ -5,26 +5,23 @@ export const WrapperComics = styled.div`
   width: 100%;
   grid-template-columns: repeat(4, 200px);
   column-gap: 92px;
+  grid-row-gap: 120px;
 `;
 
 export const ComcisItemDiv = styled.div`
   width: 200px;
   height: 318px;
-  margin-top: 50px;
-  background-color: #000;
+ 
+  
+  cursor: pointer;
 `;
 
-export const ComicsItem = styled.li`
-  width: 200px;
-  height: 318px;
-  background-color: $dark;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
-  padding: 15px;
-  cursor: pointer;
-  transition: 0.3s transform;
-`;
+
 export const ComicsImg = styled.img`
   max-width: 105%;
+  height: 345px;
+  object-fit: fill;
+  margin-bottom: 5px;
 `;
 export const TitleComics = styled.p`
   font-family: "Roboto Condensed";
@@ -32,7 +29,7 @@ export const TitleComics = styled.p`
   font-weight: 700;
   font-size: 14px;
   line-height: 16px;
-  margin-top: 35px;
+  
   color: #000000;
 `;
 export const ComicsPrice = styled.p`
@@ -55,8 +52,9 @@ export const Button = styled.button`
   border: none;
   background-color: #9f0013;
   cursor: pointer;
-  margin-top: 100px;
+  margin-top: 45px;
   margin-left: 450px;
+  margin-bottom:10px;
 `;
 export const TextButton = styled.div`
   position: relative;
@@ -65,3 +63,13 @@ export const TextButton = styled.div`
   padding: 0 18px;
   transition: none;
 `;
+
+export const ExtraLoading = styled.p`
+font-family: "Roboto Condensed";
+font-style: normal;
+font-weight: 700;
+font-size: 14px;
+margin-left:450px;
+
+`;
+
