@@ -1,50 +1,40 @@
-class Services {
-  __apiKey = "apikey=c334abaf7a79a7cc717a34fe3aa984af";
-  __apiData = "https://gateway.marvel.com:443/v1/public/";
-  _apiOffsetHero = 210;
-  _apiOffsetComics = 210;
+import { useHttp } from "../hooks/useHttp";
 
-  getAllData = async (url) => {
-    let result = await fetch(url);
+const useServices = () => {
+  const { loading, error, request } = useHttp();
+  const __apiKey = "apikey=c334abaf7a79a7cc717a34fe3aa984af";
+  const __apiData = "https://gateway.marvel.com:443/v1/public/";
+  const _apiOffsetHero = 210;
+  const _apiOffsetComics = 210;
 
-    if (!result.ok) {
-      throw new Error(`Could not fetch this ${url}, status: ${result.status}`);
-    }
-
-    return await result.json();
-  };
-
-  getAllHeroes = async (offset = this._apiOffsetHero) => {
-    const res = await this.getAllData(
-      `${this.__apiData}characters?limit=9&offset=${offset}&${this.__apiKey}`
+  const getAllHeroes = async (offset = _apiOffsetHero) => {
+    const res = await request(
+      `${__apiData}characters?limit=9&offset=${offset}&${__apiKey}`
     );
-    return res.data.results.map(this._transformHero);
+    return res.data.results.map(_transformHero);
   };
 
-  getHero = async (id) => {
-    const res = await this.getAllData(
-      `${this.__apiData}characters/${id}?${this.__apiKey}`
-    );
-    return this._transformHero(res.data.results[0]);
+  const getHero = async (id) => {
+    const res = await request(`${__apiData}characters/${id}?${__apiKey}`);
+    return  _transformHero(res.data.results[0]);
   };
 
-  getNumHero = async (num) => {
-    const res = await this.getAllData(
-      `${this.__apiData}characters?limit=${num}&${this.__apiKey}`
+  const getNumHero = async (num) => {
+    const res = await request(
+      `${__apiData}characters?limit=${num}&${__apiKey}`
     );
     return await res.data.results[0];
   };
 
-  getComicsList = async (offset = this._apiOffsetComics) => {
-    const res = await this.getAllData(
-      `${this.__apiData}comics?offset=${offset}&${this.__apiKey}`
+  const getComicsList = async (offset = _apiOffsetComics) => {
+    const res = await request(
+      `${__apiData}comics?offset=${offset}&${__apiKey}`
     );
-    return res.data.results.map(this._trasfromComics);
+    return res.data.results.map(_trasfromComics);
   };
 
-  _transformHero = (res) => {
+  const _transformHero = (res) => {
     // трансформували данні
-
     return {
       name: res.name,
       description: res.description
@@ -58,7 +48,7 @@ class Services {
     };
   };
 
-  _trasfromComics = (res) => {
+  const _trasfromComics = (res) => {
     return {
       id: res.id,
       title: res.title,
@@ -66,6 +56,7 @@ class Services {
       thumbnail: res.thumbnail.path + "." + res.thumbnail.extension,
     };
   };
-}
+  return { getAllHeroes, getHero, getComicsList, getNumHero, loading, error };
+};
 
-export default Services;
+export default useServices;

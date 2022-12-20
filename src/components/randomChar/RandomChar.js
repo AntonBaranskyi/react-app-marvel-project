@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Services from "../../servises/data";
+import useServices from "../../servises/data";
 
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
@@ -9,31 +9,21 @@ import "./randomChar.scss";
 
 const RandomChar = () => {
   const [hero, setHero] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  const marvelServises = new Services();
-
+  const { loading, error, getHero } = useServices();
   useEffect(() => {
     updateHero();
   }, []);
   const onUpdate = () => {
     updateHero();
-    setLoading(true);
   };
 
   const onHeroLoaded = (hero) => {
     setHero(hero);
-    setLoading((loading) => (loading = false));
-  };
-  const onError = () => {
-    setError(true);
-    setLoading(false);
   };
 
   const updateHero = () => {
     const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-    marvelServises.getHero(id).then(onHeroLoaded).catch(onError);
+    getHero(id).then(onHeroLoaded);
   };
 
   const errorMsg = error ? <ErrorMessage /> : null;

@@ -14,10 +14,10 @@ const MainPage = () => {
   return (
     <>
       <RandomChar />
-      <div className="char__content">
+      {/* <div className="char__content">
         <CharList onGetHeroId={onGetHeroId} />
         <CharInfo heroId={heroId} />
-      </div>
+      </div> */}
       <img className="bg-decoration" src={decoration} alt="vision" />
     </>
   );
