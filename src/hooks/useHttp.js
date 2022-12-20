@@ -20,6 +20,7 @@ export const useHttp = () => {
           );
         }
         const resp = await response.json();
+        setLoading(false);
         return resp;
       } catch (e) {
         setLoading(false);

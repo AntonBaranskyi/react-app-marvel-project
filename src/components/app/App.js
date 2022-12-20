@@ -2,6 +2,7 @@ import MainPage from "../pages/MainPage";
 import ComicsPages from "../pages/ComicsPages";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+import RandomChar from "../randomChar/RandomChar";
 import AppHeader from "../appHeader/AppHeader";
 
 const App = () => {
