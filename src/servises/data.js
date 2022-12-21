@@ -16,7 +16,7 @@ const useServices = () => {
 
   const getHero = async (id) => {
     const res = await request(`${__apiData}characters/${id}?${__apiKey}`);
-    return  _transformHero(res.data.results[0]);
+    return _transformHero(res.data.results[0]);
   };
 
   const getNumHero = async (num) => {
@@ -31,6 +31,11 @@ const useServices = () => {
       `${__apiData}comics?offset=${offset}&${__apiKey}`
     );
     return res.data.results.map(_trasfromComics);
+  };
+
+  const getComics = async (id) => {
+    const res = await request(`${__apiData}comics/${id}?${__apiKey}`);
+    return _trasfromComics(res.data.results[0]);
   };
 
   const _transformHero = (res) => {
@@ -52,11 +57,24 @@ const useServices = () => {
     return {
       id: res.id,
       title: res.title,
-      price: res.prices.price == undefined ? "9.99$" : res.prices.price,
+      price: res.prices.price ? res.prices.price : "Not available",
       thumbnail: res.thumbnail.path + "." + res.thumbnail.extension,
+      description: res.description
+        ? res.description
+        : "There is no description for this comics :( ",
+      pages: res.pageCount,
     };
   };
-  return { getAllHeroes, getHero, getComicsList, getNumHero, loading, error, clearError };
+  return {
+    getAllHeroes,
+    getHero,
+    getComicsList,
+    getNumHero,
+    loading,
+    error,
+    clearError,
+    getComics,
+  };
 };
 
 export default useServices;

@@ -15,19 +15,18 @@ const CharList = (props) => {
     getHeroesData();
   }, []);
 
-  const {loading, error, getAllHeroes} = useServices();
+  const { loading, error, getAllHeroes } = useServices();
 
   const getHeroesData = (offset, initial) => {
-    getAllHeroes(offset).then(onHeroesLoaded)
+    getAllHeroes(offset).then(onHeroesLoaded);
   };
 
   const onHeroesLoaded = (heroes) => {
     setHeroes(heroes);
-    
   };
- const onRequestMore = (offset) => {
+  const onRequestMore = (offset) => {
     onExtraLoading();
-    getAllHeroes(offset).then(onMoreHeroesLoaded)
+    getAllHeroes(offset).then(onMoreHeroesLoaded);
   };
   const onExtraLoading = () => {
     setExtraLoading(true);
