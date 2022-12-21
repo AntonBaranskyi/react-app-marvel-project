@@ -1,7 +1,7 @@
 import { useHttp } from "../hooks/useHttp";
 
 const useServices = () => {
-  const { loading, error, request } = useHttp();
+  const { loading, error, request, clearError } = useHttp();
   const __apiKey = "apikey=c334abaf7a79a7cc717a34fe3aa984af";
   const __apiData = "https://gateway.marvel.com:443/v1/public/";
   const _apiOffsetHero = 210;
@@ -56,7 +56,7 @@ const useServices = () => {
       thumbnail: res.thumbnail.path + "." + res.thumbnail.extension,
     };
   };
-  return { getAllHeroes, getHero, getComicsList, getNumHero, loading, error };
+  return { getAllHeroes, getHero, getComicsList, getNumHero, loading, error, clearError };
 };
 
 export default useServices;

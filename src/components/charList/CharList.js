@@ -1,4 +1,4 @@
-import Services from "../../servises/data";
+import useServices from "../../servises/data";
 import "./charList.scss";
 import { useState, useEffect } from "react";
 import Spinner from "../spinner/Spinner";
@@ -7,8 +7,6 @@ import PropTypes from "prop-types";
 
 const CharList = (props) => {
   const [heroes, setHeroes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [offset, setOffset] = useState(219);
   const [extraLoading, setExtraLoading] = useState(false);
   const [heroEnded, setHeroEnded] = useState(false);
@@ -17,24 +15,19 @@ const CharList = (props) => {
     getHeroesData();
   }, []);
 
-  const newService = new Services();
+  const {loading, error, getAllHeroes} = useServices();
 
-  const onError = () => {
-    setError(true);
-    setLoading(false);
-  };
-
-  const getHeroesData = () => {
-    newService.getAllHeroes().then(onHeroesLoaded).catch(onError);
+  const getHeroesData = (offset, initial) => {
+    getAllHeroes(offset).then(onHeroesLoaded)
   };
 
   const onHeroesLoaded = (heroes) => {
     setHeroes(heroes);
-    setLoading(false);
+    
   };
  const onRequestMore = (offset) => {
     onExtraLoading();
-    newService.getAllHeroes(offset).then(onMoreHeroesLoaded).catch(onError);
+    getAllHeroes(offset).then(onMoreHeroesLoaded)
   };
   const onExtraLoading = () => {
     setExtraLoading(true);
@@ -42,6 +35,7 @@ const CharList = (props) => {
   const onMoreHeroesLoaded = (newHeroes) => {
     let ended = newHeroes.length < 9;
 
+    onExtraLoading();
     setHeroes((heroes) => [...heroes, ...newHeroes]);
     setExtraLoading(false);
     setOffset((offset) => offset + 9);

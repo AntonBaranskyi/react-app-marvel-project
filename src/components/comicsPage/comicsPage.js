@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Services from "../../servises/data";
+import useServices from "../../servises/data";
 import Spinner from "../spinner/Spinner";
 import {
   Button,
@@ -16,30 +16,31 @@ import ErrorMessage from "../errorMessage/ErrorMessage";
 
 const ComicsPage = () => {
   const [comics, setComics] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setEror] = useState(false);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setEror] = useState(false);
   const [offset, setOffset] = useState(210);
   const [extraLoading, setExtraLoading] = useState(false);
 
-  const MarvelService = new Services();
+  const {loading, error, getComicsList} = useServices();
+
   useEffect(() => {
     getListOfComics();
   }, []);
 
   const getListOfComics = () => {
-    MarvelService.getComicsList().then(loadComics).catch(loadError);
+    getComicsList().then(loadComics)
   };
   const loadComics = (res) => {
     setComics(res.slice(0,8));
-    setLoading(false);
+  
   };
   const loadError = () => {
     setEror(true);
-    setLoading(false);
+    
   };
   const onRequestMore = (offset)=>{
     setExtraLoading(true);
-    MarvelService.getComicsList(offset).then(loadMoreComics).catch(loadError);
+    getComicsList(offset).then(loadMoreComics)
   }
 
   const loadMoreComics =(newComics)=>{

@@ -1,64 +1,44 @@
 import "./charInfo.scss";
 import { useState, useEffect } from "react";
-import Services from "../../servises/data";
+import useServices from "../../servises/data";
 import Skeleton from "../skeleton/Skeleton";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import PropTypes from "prop-types";
 
-const CharInfo = (props)=> {
-
+const CharInfo = (props) => {
   const [hero, setHero] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
- 
-  useEffect(()=>{
+
+  const { loading, error, getHero } = useServices();
+
+  useEffect(() => {
     onHeroDataUpdate();
-  },[]);
+  }, []);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     onHeroDataUpdate();
-  },[props.heroId]);
+  }, [props.heroId]);
 
-  const marvelService = new Services();
   const onHeroDataUpdate = () => {
     if (!props.heroId) {
       return;
     }
-    onLoading();
-    marvelService
-      .getHero(props.heroId)
-      .then(updateHero)
-      .catch(onError);
+
+    getHero(props.heroId).then(updateHero);
   };
   const updateHero = (hero) => {
-    console.log(hero);
     setHero(hero);
-    setLoading(false);
   };
-  const onLoading = () => {
-    setLoading(true);
 
-  };
-  const onError = () => {
-
-    setLoading(false);
-    setError(true);
-
-  };
-   
-
-    return (
-      <div className="char__info">
-        {!(hero || loading || error) && <Skeleton />}
-        {loading && <Spinner />}
-        {error && <ErrorMessage />}
-        {!(loading || error || !hero) && <View hero={hero} />}
-      </div>
-    );
-  
-}
+  return (
+    <div className="char__info">
+      {!(hero || loading || error) && <Skeleton />}
+      {loading && <Spinner />}
+      {error && <ErrorMessage />}
+      {!(loading || error || !hero) && <View hero={hero} />}
+    </div>
+  );
+};
 
 const View = ({ hero }) => {
   let i = 0;

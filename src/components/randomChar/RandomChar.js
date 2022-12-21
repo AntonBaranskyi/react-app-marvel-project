@@ -9,7 +9,7 @@ import "./randomChar.scss";
 
 const RandomChar = () => {
   const [hero, setHero] = useState({});
-  const { loading, error, getHero } = useServices();
+  const { loading, error, getHero, clearError } = useServices();
   useEffect(() => {
     updateHero();
   }, []);
@@ -22,6 +22,7 @@ const RandomChar = () => {
   };
 
   const updateHero = () => {
+    clearError();
     const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
     getHero(id).then(onHeroLoaded);
   };
