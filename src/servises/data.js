@@ -38,6 +38,11 @@ const useServices = () => {
     return _trasfromComics(res.data.results[0]);
   };
 
+  const getheroByName = async (name)=>{
+    const res = await request(`${__apiData}characters?name=${name}&${__apiKey}`);
+    return _transformHero(res.data.results[0]);
+  }
+
   const _transformHero = (res) => {
     // трансформували данні
     return {
@@ -65,6 +70,8 @@ const useServices = () => {
       pages: res.pageCount,
     };
   };
+
+
   return {
     getAllHeroes,
     getHero,
@@ -74,6 +81,7 @@ const useServices = () => {
     error,
     clearError,
     getComics,
+    getheroByName
   };
 };
 
