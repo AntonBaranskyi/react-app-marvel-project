@@ -38,17 +38,19 @@ const useServices = () => {
     return _trasfromComics(res.data.results[0]);
   };
 
-  const getheroByName = async (name)=>{
-    const res = await request(`${__apiData}characters?name=${name}&${__apiKey}`);
+  const getheroByName = async (name) => {
+    const res = await request(
+      `${__apiData}characters?name=${name}&${__apiKey}`
+    );
     return _transformHero(res.data.results[0]);
-  }
+  };
 
   const _transformHero = (res) => {
     // трансформували данні
     return {
       name: res.name,
       description: res.description
-        ? `${res.description.slice(0, 200)}...`
+        ? res.description
         : "Could not found description for this hero",
       thumbnail: res.thumbnail.path + "." + res.thumbnail.extension,
       homepage: res.urls[0].url,
@@ -71,7 +73,6 @@ const useServices = () => {
     };
   };
 
-
   return {
     getAllHeroes,
     getHero,
@@ -81,7 +82,7 @@ const useServices = () => {
     error,
     clearError,
     getComics,
-    getheroByName
+    getheroByName,
   };
 };
 

@@ -1,5 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { Link } from "react-router-dom";
 
 import "./searchCharForm.scss";
 
@@ -66,13 +67,19 @@ const SearchCharForm = () => {
               {hero ? (
                 <div className="char__search-success">
                   {`There is! Visit ${hero.name} page?`}
-                  <button style={{ marginLeft: "95px" }}>Click me</button>
+                  <Link
+                    params={hero}
+                    to={`/${hero.id}`}
+                    style={{ marginLeft: "95px" }}
+                  >
+                    Click me
+                  </Link>
                 </div>
               ) : null}
               {error && !hero ? (
-                <div className="char__search-error">
+                <ErrorMessage component="div" className="char__search-error">
                   The character was not found. Check the name and try again
-                </div>
+                </ErrorMessage>
               ) : null}
             </div>
           </Form>
