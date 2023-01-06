@@ -12,6 +12,8 @@ import {
   MainWrapper,
 } from "./SingleHeroPageStyled";
 
+import { Helmet } from "react-helmet";
+
 const SingleComicPage = () => {
   const { heroId } = useParams();
   const [hero, setHero] = useState([]);
@@ -45,6 +47,10 @@ const SingleComicPage = () => {
 const View = ({ hero }) => {
   return (
     <MainWrapper>
+      <Helmet>
+        <meta name="description" content="Marvel hero page" />
+        <title>{`${hero.name} page`}</title>
+      </Helmet>
       <div>
         <HeroImg src={hero.thumbnail} />
       </div>
