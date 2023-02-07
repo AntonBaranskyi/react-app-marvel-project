@@ -11,7 +11,7 @@ const SearchCharForm = () => {
   const [userHero, setUserHero] = useState();
   const [hero, setHero] = useState(null);
   const [error, setError] = useState(false);
-  const { getheroByName, clearError, loading } = useServices();
+  const { getheroByName, clearError } = useServices();
 
   const getHeroData = (name) => {
     getheroByName(name).then(loadHero).catch(setError(true));

@@ -19,7 +19,7 @@ const CharList = (props) => {
 
   const { loading, error, getAllHeroes } = useServices();
 
-  const getHeroesData = (offset, initial) => {
+  const getHeroesData = (offset) => {
     getAllHeroes(offset).then(onHeroesLoaded);
   };
 
@@ -43,7 +43,7 @@ const CharList = (props) => {
     setHeroEnded(ended);
   };
 
-  const loadingImg = loading ? <Spinner /> : null;
+  const loadingImg = loading && extraLoading ? <Spinner /> : null;
   const errorImg = error ? <ErrorMessage /> : null;
   return (
     <div className="char__list">

@@ -19,6 +19,8 @@ const CharInfo = (props) => {
 
   useEffect(() => {
     onHeroDataUpdate();
+
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.heroId]);
 
   const onHeroDataUpdate = () => {

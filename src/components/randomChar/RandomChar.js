@@ -12,6 +12,8 @@ const RandomChar = () => {
   const { loading, error, getHero, clearError } = useServices();
   useEffect(() => {
     updateHero();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const onUpdate = () => {
     updateHero();
