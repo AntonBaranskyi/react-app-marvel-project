@@ -13,6 +13,8 @@ const CharList = (props) => {
 
   useEffect(() => {
     getHeroesData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { loading, error, getAllHeroes } = useServices();

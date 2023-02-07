@@ -15,6 +15,7 @@ const SingleComicPage = () => {
 
   useEffect(() => {
     getComicData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comicId]);
 
   const onComicLoad = (comic) => {

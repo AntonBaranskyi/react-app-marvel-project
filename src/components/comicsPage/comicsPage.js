@@ -20,7 +20,7 @@ const ComicsPage = () => {
   const [offset, setOffset] = useState(210);
   const [extraLoading, setExtraLoading] = useState(false);
 
-  const { loading, error, getComicsList, getComics } = useServices();
+  const { loading, error, getComicsList } = useServices();
 
   useEffect(() => {
     getListOfComics();
