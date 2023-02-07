@@ -21,6 +21,8 @@ const SingleComicPage = () => {
 
   useEffect(() => {
     getHerocData();
+
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [heroId]);
 
   const onHeroLoad = (answ) => {

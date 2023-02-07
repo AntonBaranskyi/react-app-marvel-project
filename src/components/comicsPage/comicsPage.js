@@ -24,6 +24,7 @@ const ComicsPage = () => {
 
   useEffect(() => {
     getListOfComics();
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getListOfComics = () => {
